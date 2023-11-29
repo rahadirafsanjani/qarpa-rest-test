@@ -2,6 +2,7 @@
 Library     RequestsLibrary
 Library     Collections
 Library     OperatingSystem
+Library     generator.py
 
 *** Variable ***
 ${attendance_check_in_report}     attendances/check_in
@@ -12,10 +13,10 @@ ${attendance_monitoring}          employee/attendances/history
 
 *** Keywords ***
 Attendance Report
-    [Arguments]    ${timestamp}    ${latitude}    ${longitude}    ${expected_status}
+    [Arguments]    ${timestamp}    ${latitude}    ${longitude}    ${expected_status}    ${auth}
     ${hdr}=    Create Dictionary
     ...    Content-Type=application/json
-    ...    Authorization=Bearer ${login_response.json()}[access_token]
+    ...    Authorization=Bearer ${auth.json()}[access_token]
 
     ${attendance_data}=    Create Dictionary
     ...    check_in=${timestamp}
