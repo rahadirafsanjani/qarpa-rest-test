@@ -23,12 +23,12 @@ Attendance Report
 
     ${attendance_data}    Evaluate    json.dumps(${attendance_data})
 
-    ${check_in}    POST On Session        
+    ${result}    POST On Session        
     ...    qarpa
     ...    ${attendance_check_in_report}
     ...    data=${attendance_data}
     ...    headers=${hdr}
     ...    expected_status=${expected_status}
     
-    [return]  ${check_in}
+    [return]  ${result}
 
