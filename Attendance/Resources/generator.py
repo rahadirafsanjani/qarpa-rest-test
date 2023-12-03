@@ -66,3 +66,7 @@ class generator:
         formatted_time = now.strftime("%H:%M:%S.%f")[:-3]
         return formatted_time
 
+    def timestamp(self):
+        now = datetime.now()
+        formatted_time = now.strftime("%m-%d-%Y %H:%M:%S.%f")
+        return formatted_time
