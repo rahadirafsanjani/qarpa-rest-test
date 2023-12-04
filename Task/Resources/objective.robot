@@ -80,3 +80,18 @@ GET Task Overview
     ...    expected_status=${expected_status}
 
     [return]  ${result}
+
+GET Task Quantity
+    [Arguments]    ${auth}    ${user_permission}    ${expected_status}
+
+    ${hdr}=    Create Dictionary
+    ...    Content-Type=application/json
+    ...    Authorization=Bearer ${auth.json()}[access_token]
+    
+    ${result}=    Get On Session
+    ...    qarpa
+    ...    ${task_quantity}
+    ...    headers=${hdr}
+    ...    expected_status=${expected_status}
+
+    [return]  ${result}
