@@ -63,3 +63,25 @@ PUT Leave Assessment
     ...    expected_status=${expected_status}
 
     [return]  ${result}
+
+GET Leave Data
+    [Arguments]    ${auth}    ${user_permission}    ${expected_status}
+
+    ${hdr}=    Create Dictionary
+    ...    Content-Type=application/json
+    ...    Authorization=Bearer ${auth.json()}[access_token]
+    
+    IF  ${user_permission} == ${1}
+        ${endpoint}=    Set Variable    ${leave_request_base}
+    ELSE IF  ${user_permission} == ${2}  
+        ${endpoint}=    Set Variable    employee/${leave_request_base}
+    END
+    
+    ${result}=    Get On Session
+    ...    qarpa
+    ...    ${endpoint}
+    ...    headers=${hdr}
+    ...    expected_status=${expected_status}
+
+    [return]  ${result}
+
