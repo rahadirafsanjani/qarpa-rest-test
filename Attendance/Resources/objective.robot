@@ -51,3 +51,32 @@ Check Out Report
     ...    expected_status=${expected_status}
     
     [return]  ${result}
+
+Attendace Status
+    [Arguments]    ${expected_status}    ${auth}
+    ${hdr}=    Create Dictionary
+    ...    Content-Type=application/json
+    ...    Authorization=Bearer ${auth.json()}[access_token]
+
+    ${result}=    Get On Session
+    ...    qarpa
+    ...    ${attendance_status}
+    ...    headers=${hdr}
+    ...    expected_status=${expected_status}
+
+    [return]  ${result}
+
+
+Attendace Monitoring
+    [Arguments]    ${expected_status}    ${auth}
+    ${hdr}=    Create Dictionary
+    ...    Content-Type=application/json
+    ...    Authorization=Bearer ${auth.json()}[access_token]
+
+    ${result}=    Get On Session
+    ...    qarpa
+    ...    ${attendance_monitoring}
+    ...    headers=${hdr}
+    ...    expected_status=${expected_status}
+
+    [return]  ${result}
