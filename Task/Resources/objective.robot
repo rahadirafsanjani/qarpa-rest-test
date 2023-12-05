@@ -5,11 +5,12 @@ Library     generator.py
 
 *** Variables ***
 ${task_monitoring_owner}        management_works
+${task_base}        management_works
 ${task_monitoring_employee}     employee/management_works
-${task_creation}                management_works/
-${task_overview}                management_works/
+${task_creation}                management_works
+${task_overview}                management_works
 ${task_quantity}                employee/management_works/amount
-${task_report}                  employee/management_works/
+${task_report}                  employee/management_works
 
 
 *** Keywords ***
@@ -36,8 +37,60 @@ POST Task
 
     ${result}=    POST On Session
     ...    qarpa
-    ...    ${task_creation}
+    ...    ${task_base}
     ...    data=${task_data}
+    ...    headers=${hdr}
+    ...    expected_status=${expected_status}
+
+    [return]  ${result}
+
+GET Task Data
+    [Arguments]    ${auth}    ${user_permission}    ${expected_status}
+
+    ${hdr}=    Create Dictionary
+    ...    Content-Type=application/json
+    ...    Authorization=Bearer ${auth.json()}[access_token]
+    
+    IF  ${user_permission} == ${1}
+        ${endpoint}=    Set Variable    ${task_base}
+    ELSE IF  ${user_permission} == ${2}  
+        ${endpoint}=    Set Variable    employee/${task_base}
+    END
+    
+    ${result}=    Get On Session
+    ...    qarpa
+    ...    ${endpoint}
+    ...    headers=${hdr}
+    ...    expected_status=${expected_status}
+
+    [return]  ${result}
+
+
+GET Task Overview
+    [Arguments]    ${task_id}    ${auth}    ${user_permission}    ${expected_status}
+
+    ${hdr}=    Create Dictionary
+    ...    Content-Type=application/json
+    ...    Authorization=Bearer ${auth.json()}[access_token]
+    
+    ${result}=    Get On Session
+    ...    qarpa
+    ...    ${task_base}/${task_id}
+    ...    headers=${hdr}
+    ...    expected_status=${expected_status}
+
+    [return]  ${result}
+
+GET Task Quantity
+    [Arguments]    ${auth}    ${user_permission}    ${expected_status}
+
+    ${hdr}=    Create Dictionary
+    ...    Content-Type=application/json
+    ...    Authorization=Bearer ${auth.json()}[access_token]
+    
+    ${result}=    Get On Session
+    ...    qarpa
+    ...    ${task_quantity}
     ...    headers=${hdr}
     ...    expected_status=${expected_status}
 

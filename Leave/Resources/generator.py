@@ -10,7 +10,7 @@ class generator:
         return  self.fake.date_between(start_date='today', end_date='+60d').strftime('%Y-%m-%d')
     def date_past(self):
         return  self.fake.date_between(start_date='-60d', end_date='today').strftime('%Y-%m-%d')
-    
+
     def default_sentence(self):
         return  self.fake.text(max_nb_chars=40)
 
