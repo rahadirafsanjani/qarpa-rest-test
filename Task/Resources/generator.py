@@ -1,4 +1,5 @@
 from faker import Faker
+from datetime import datetime
 import random
 import string
 
@@ -51,3 +52,10 @@ class generator:
 
         return sentence
     
+    def count_date(self, date_str1, date_str2):
+        date_format = "%Y-%m-%d"
+        date1 = datetime.strptime(date_str1, date_format)
+        date2 = datetime.strptime(date_str2, date_format)
+        date_difference = date1 - date2
+        days_difference = date_difference.days
+        return days_difference
