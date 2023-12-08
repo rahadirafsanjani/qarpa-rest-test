@@ -59,3 +59,9 @@ class generator:
         date_difference = date1 - date2
         days_difference = date_difference.days
         return days_difference
+    
+    def get_task_by_id(self, task_list, target_id):
+        for task in task_list:
+            if task.get("id") == target_id:
+                return task
+        return None  # ID not found
