@@ -5,7 +5,7 @@ Library     generator.py
 
 *** Variables ***
 ${task_monitoring_owner}        management_works
-${task_base}        management_works
+${task_base}                    management_works
 ${task_monitoring_employee}     employee/management_works
 ${task_creation}                management_works
 ${task_overview}                management_works
@@ -33,7 +33,7 @@ POST Task
     ...    Content-Type=application/json
     ...    Authorization=Bearer ${auth.json()}[access_token]
 
-    Log To Console    ${task_data}
+    # Log To Console    ${task_data}
 
     ${result}=    POST On Session
     ...    qarpa
@@ -57,17 +57,17 @@ GET Task Data
         ${endpoint}=    Set Variable    employee/${task_base}
     END
     
-    ${result}=    Get On Session
+    ${result}=    Get On Session    
     ...    qarpa
     ...    ${endpoint}
     ...    headers=${hdr}
     ...    expected_status=${expected_status}
 
-    [return]  ${result}
+    [return]    ${result}
 
 
 GET Task Overview
-    [Arguments]    ${task_id}    ${auth}    ${user_permission}    ${expected_status}
+    [Arguments]    ${task_id}    ${auth}    ${expected_status}
 
     ${hdr}=    Create Dictionary
     ...    Content-Type=application/json
@@ -82,7 +82,7 @@ GET Task Overview
     [return]  ${result}
 
 GET Task Quantity
-    [Arguments]    ${auth}    ${user_permission}    ${expected_status}
+    [Arguments]    ${auth}    ${expected_status}
 
     ${hdr}=    Create Dictionary
     ...    Content-Type=application/json
