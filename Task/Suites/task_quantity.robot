@@ -8,7 +8,7 @@ Resource    ../Resources/objective.robot
 *** Test Cases ***
 Test Case Task 01  
     ${auth}    Auth
-    Get Data    auth=${auth}    user_permisiion=${2}    expected_status=200
+    Get Data    auth=${auth}    expected_status=200
     
 
 *** Keywords ***
@@ -17,5 +17,5 @@ Auth
     [return]    ${response}
 
 Get Data
-    [Arguments]    ${auth}    ${user_permisiion}    ${expected_status}
-    GET Task Quantity    auth=${auth}     user_permission=${user_permisiion}    expected_status=${expected_status}
+    [Arguments]    ${auth}   ${expected_status}
+    GET Task Quantity    auth=${auth}    expected_status=${expected_status}
