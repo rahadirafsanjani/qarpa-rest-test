@@ -65,3 +65,8 @@ class generator:
             if task.get("id") == target_id:
                 return task
         return None  # ID not found
+    
+    def count_task_status(self, task_list):
+        todo_count = sum(1 for task in task_list if task["status"] == "todo")
+        done_count = sum(1 for task in task_list if task["status"] == "done")
+        return {"todo_task_count": todo_count, "done_task_count": done_count}
