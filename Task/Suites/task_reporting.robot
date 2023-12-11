@@ -11,7 +11,7 @@ Test Case Task Report
     ${mock_data}      Generate Data Default
     ${data}           Create Task for Get Testing    task=${mock_data}[task]    description=${mock_data}[desc]    start_at=${mock_data}[start_at]    end_at=${mock_data}[end_at]    user_id=${617}
     ${response}       PUT Data    task_id=${data.json()}[data][id]     auth=${auth}       expected_status=200
-    Log To Console    ${response.json()}[data]
+    Validation Task Reporting    response=${response}    data=${data}
 
 *** Keywords ***
 Auth
@@ -35,3 +35,8 @@ Generate Data Default
     ${date_past}    date_past
     ${data}    Create Dictionary    task=${sentence}    desc=${sentence}    start_at=${date_past}    end_at=${date_future}
     [Return]    ${data}
+
+Validation Task Reporting
+    [Arguments]    ${response}    ${data}
+    Should Not Be Equal           first=${response.json()}[data][status]    second=${data.json()}[data][status]
+    Should Be Equal As Strings    first=${response.json()}[data][status]    second=done
