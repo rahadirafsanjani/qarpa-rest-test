@@ -95,3 +95,19 @@ GET Task Quantity
     ...    expected_status=${expected_status}
 
     [return]  ${result}
+
+
+PUT Task Report
+    [Arguments]    ${task_id}    ${auth}    ${expected_status}
+
+    ${hdr}=    Create Dictionary
+    ...    Content-Type=application/json
+    ...    Authorization=Bearer ${auth.json()}[access_token]
+    
+    ${result}=    PUT On Session
+    ...    qarpa
+    ...    employee/${task_base}/${task_id}
+    ...    headers=${hdr}
+    ...    expected_status=${expected_status}
+
+    [return]  ${result}
