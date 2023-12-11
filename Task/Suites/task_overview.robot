@@ -20,7 +20,7 @@ Auth
 
 Get Data
     [Arguments]    ${task_id}    ${auth}        ${expected_status}
-    ${sa}    GET Task Overview    task_id=${task_id}   auth=${auth}     expected_status=${expected_status}
+    GET Task Overview    task_id=${task_id}   auth=${auth}     expected_status=${expected_status}
 
 Create Task for Get Testing
     [Arguments]    ${task}    ${description}    ${start_at}    ${end_at}    ${user_id}
