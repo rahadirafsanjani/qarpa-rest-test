@@ -1,4 +1,5 @@
 from faker import Faker
+from datetime import datetime
 import random
 import string
 
@@ -51,3 +52,21 @@ class generator:
 
         return sentence
     
+    def count_date(self, date_str1, date_str2):
+        date_format = "%Y-%m-%d"
+        date1 = datetime.strptime(date_str1, date_format)
+        date2 = datetime.strptime(date_str2, date_format)
+        date_difference = date1 - date2
+        days_difference = date_difference.days
+        return days_difference
+    
+    def get_task_by_id(self, task_list, target_id):
+        for task in task_list:
+            if task.get("id") == target_id:
+                return task
+        return None  # ID not found
+    
+    def count_task_status(self, task_list):
+        todo_count = sum(1 for task in task_list if task["status"] == "todo")
+        done_count = sum(1 for task in task_list if task["status"] == "done")
+        return {"todo_task_count": todo_count, "done_task_count": done_count}

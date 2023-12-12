@@ -10,7 +10,7 @@ Test Case Task 01
     ${data}    Generate Data Default
     ${auth}    Auth
     ${ids}     Create Task for Get Testing    task=${data}[task]    description=${data}[desc]    start_at=${data}[start_at]    end_at=${data}[end_at]    user_id=${388}
-    Get Data    task_id=${ids.json()}[data][id]    auth=${auth}    user_permisiion=${2}    expected_status=200
+    Get Data    task_id=${ids.json()}[data][id]    auth=${auth}   expected_status=200
     
 
 *** Keywords ***
@@ -19,8 +19,8 @@ Auth
     [return]    ${response}
 
 Get Data
-    [Arguments]    ${task_id}    ${auth}    ${user_permisiion}    ${expected_status}
-    ${sa}    GET Task Overview    task_id=${task_id}   auth=${auth}     user_permission=${user_permisiion}    expected_status=${expected_status}
+    [Arguments]    ${task_id}    ${auth}        ${expected_status}
+    GET Task Overview    task_id=${task_id}   auth=${auth}     expected_status=${expected_status}
 
 Create Task for Get Testing
     [Arguments]    ${task}    ${description}    ${start_at}    ${end_at}    ${user_id}

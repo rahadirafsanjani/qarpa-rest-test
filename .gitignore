@@ -161,3 +161,8 @@ cython_debug/
 
 .vscode
 _output/*
+.python-version
+
+sample.py
+sample.robot
+sample.resource
