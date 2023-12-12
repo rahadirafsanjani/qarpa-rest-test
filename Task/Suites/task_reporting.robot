@@ -10,7 +10,7 @@ Test Case Task Report
     ${auth_owner}       Auth           email=${01_USER_EMAIL}                  password=${01_USER_PASSWORD}
     ${auth_employee}    Auth           email=${01_USER_IN_BRANCH_EMAIL}        password=${01_USER_IN_BRANCH_PASSWORD}
     ${mock_data}        Generate Mock Task (Default)
-    ${data}             Task Creation for Testing    task=${mock_data}[task]    description=${mock_data}[desc]    start_at=${mock_data}[start_at]    end_at=${mock_data}[end_at]    user_id=${01_USER_IN_BRANCH_ID}    auth=${auth_owner}
+    ${data}             Task Creation for Testing    task=${mock_data}[task]    description=${mock_data}[description]    start_at=${mock_data}[start_at]    end_at=${mock_data}[end_at]    user_id=${01_USER_IN_BRANCH_ID}    auth=${auth_owner}
     ${response}         Task Reporting    task_id=${data.json()}[data][id]     auth=${auth_employee}       expected_status=200
     Task Validation    response=${response}    data=${data}
 
@@ -34,7 +34,7 @@ Generate Mock Task (Default)
     ${sentence}       Default Sentence 
     ${date_future}    date_future
     ${date_past}      date_past
-    ${data}           Create Dictionary    task=${sentence}    desc=${sentence}    start_at=${date_past}    end_at=${date_future}
+    ${data}           Create Dictionary    task=${sentence}    description=${sentence}    start_at=${date_past}    end_at=${date_future}
     [Return]          ${data}
 
 Task Validation
