@@ -20,7 +20,7 @@ Auth
     ${response}    Open Login Session    email=${email}     password=${password}
     [return]       ${response}
 
-Task Creation (Task Monitoting Test)
+Task Creation for Testing
     [Arguments]    ${task}    ${description}    ${start_at}    ${end_at}    ${user_id}    ${auth}
     ${response}    POST Task    task=${task}    description=${description}    start_at=${start_at}     end_at=${end_at}    user_id=${user_id}    expected_status=201    auth=${auth}
     [return]       ${response}
@@ -32,20 +32,20 @@ Task Monitoring
 
 Task Validation
     [Arguments]    ${response}    ${data}
-    ${number_of_days}             count_date    date_str1=${data}[end_at]    date_str2=${data}[start_at]
-    Should Be Equal As Strings    first=${data}[task]            second=${response}[task]
-    Should Be Equal As Strings    first=${data}[description]     second=${response}[description]
-    Should Be Equal As Strings    first=${data}[start_at]        second=${response}[start_at]
-    Should Be Equal As Strings    first=${data}[end_at]          second=${response}[end_at]
-    Should Be Equal As Strings    first=todo                     second=${response}[status]
-    Should Be Equal As Strings    first=${number_of_days}        second=${response}[number_of_days]
+    Should Be Equal As Strings    first=${data}[task]                second=${response}[task]
+    Should Be Equal As Strings    first=${data}[description]         second=${response}[description]
+    Should Be Equal As Strings    first=${data}[start_at]            second=${response}[start_at]
+    Should Be Equal As Strings    first=${data}[end_at]              second=${response}[end_at]
+    Should Be Equal As Strings    first=todo                         second=${response}[status]
+    Should Be Equal As Strings    first=${data}[number_of_days]      second=${response}[number_of_days]
 
 Generate Mock Task (Default)
     ${sentence}       Default Sentence 
     ${date_future}    Date Future
     ${date_past}      Date Past
-    ${data}           Create Dictionary    task=${sentence}    description=${sentence}    start_at=${date_past}    end_at=${date_future}
-    [Return]    ${data}
+    ${daydiff}        Count Date           date_str1=${date_future}    date_str2=${date_past}
+    ${data}           Create Dictionary    task=${sentence}    description=${sentence}    start_at=${date_past}    end_at=${date_future}    number_of_days=${daydiff}
+    [Return]          ${data}
 
 Generate Multiple Mock Task
     [Arguments]    ${sum}  
@@ -63,7 +63,7 @@ Create Multiple Task
     @{data_test_list}=        Create List
 
     FOR  ${i}  IN RANGE  ${sum}
-        ${data_test}      Task Creation (Task Monitoting Test)    task=${list}[${i}][task]    description=${list}[${i}][description]    start_at=${list}[${i}][start_at]    end_at=${list}[${i}][end_at]    user_id=${user_id}    auth=${auth}
+        ${data_test}      Task Creation for Testing    task=${list}[${i}][task]    description=${list}[${i}][description]    start_at=${list}[${i}][start_at]    end_at=${list}[${i}][end_at]    user_id=${user_id}    auth=${auth}
         Append To List    ${data_test_list}    ${data_test.json()}[data]
     END
 
