@@ -50,4 +50,11 @@ class generator:
         sentence = ''.join(random.choice(characters) for _ in range(length))
 
         return sentence
+
+    def get_leave_submission_by_id(self, leave_list, target_id):
+        for task in leave_list:
+            if task.get("id") == target_id:
+                return task
+        return None  # ID not found
+
     
