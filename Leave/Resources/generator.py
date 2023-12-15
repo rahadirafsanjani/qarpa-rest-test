@@ -51,3 +51,14 @@ class generator:
 
         return sentence
     
+    def get_leave_submission_by_id(self, leave_list, target_id):
+        task = next((t for t in leave_list if t.get("id") == target_id), None)
+        if task is None:
+            raise ValueError(f"Leave submission with ID {target_id} not found.")
+        return task
+
+    def replace_key_in_list(self, input_list, old_key="status", new_key="leave_status"):
+        for entry in input_list:
+            entry[new_key] = entry.pop(old_key)
+        return input_list
+        
