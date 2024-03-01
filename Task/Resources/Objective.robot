@@ -4,13 +4,15 @@ Library     generator.py
 
 
 *** Variables ***
-${task_monitoring_owner}        management_works
-${task_base}                    management_works
-${task_monitoring_employee}     employee/management_works
-${task_creation}                management_works
-${task_overview}                management_works
-${task_quantity}                employee/management_works/amount
-${task_report}                  employee/management_works
+${task_monitoring_owner}=        management_works
+${task_base}=                    management_works
+${task_monitoring_employee}=     employee/management_works
+${task_creation}=                management_works
+${task_overview}=                management_works
+${task_quantity}=                employee/management_works/amount
+${task_report}=                  employee/management_works
+
+
 
 
 *** Keywords ***
@@ -29,17 +31,25 @@ POST Task
     ${task_data}=    Evaluate    
     ...    json.dumps(${task_data})
 
-    ${hdr}=    Create Dictionary
-    ...    Content-Type=application/json
-    ...    Authorization=Bearer ${auth.json()}[access_token]
-
-    # Log To Console    ${task_data}
+    IF    '${auth}' == '${null}'
+        ${header}=    Create Dictionary
+        ...           Content-Type=application/json
+        ...           Authorization=${EMPTY}
+    ELSE
+        ${header}=    Create Dictionary
+        ...           Content-Type=application/json
+        ...           Authorization=Bearer ${auth.json()}[access_token]
+    END
+    
+    # ${header}=    Create Dictionary
+    # ...    Content-Type=application/json
+    # ...    Authorization=Bearer ${auth.json()}[access_token]
 
     ${result}=    POST On Session
     ...    qarpa
     ...    ${task_base}
     ...    data=${task_data}
-    ...    headers=${hdr}
+    ...    headers=${header}
     ...    expected_status=${expected_status}
 
     [return]  ${result}
@@ -47,7 +57,7 @@ POST Task
 GET Task Data
     [Arguments]    ${auth}    ${user_permission}    ${expected_status}
 
-    ${hdr}=    Create Dictionary
+    ${header}=    Create Dictionary
     ...    Content-Type=application/json
     ...    Authorization=Bearer ${auth.json()}[access_token]
     
@@ -60,7 +70,7 @@ GET Task Data
     ${result}=    Get On Session    
     ...    qarpa
     ...    ${endpoint}
-    ...    headers=${hdr}
+    ...    headers=${header}
     ...    expected_status=${expected_status}
 
     [return]    ${result}
@@ -69,14 +79,14 @@ GET Task Data
 GET Task Overview
     [Arguments]    ${task_id}    ${auth}    ${expected_status}
 
-    ${hdr}=    Create Dictionary
+    ${header}=    Create Dictionary
     ...    Content-Type=application/json
     ...    Authorization=Bearer ${auth.json()}[access_token]
     
     ${result}=    Get On Session
     ...    qarpa
     ...    ${task_base}/${task_id}
-    ...    headers=${hdr}
+    ...    headers=${header}
     ...    expected_status=${expected_status}
 
     [return]  ${result}
@@ -84,14 +94,14 @@ GET Task Overview
 GET Task Quantity
     [Arguments]    ${auth}    ${expected_status}
 
-    ${hdr}=    Create Dictionary
+    ${header}=    Create Dictionary
     ...    Content-Type=application/json
     ...    Authorization=Bearer ${auth.json()}[access_token]
     
     ${result}=    Get On Session
     ...    qarpa
     ...    ${task_quantity}
-    ...    headers=${hdr}
+    ...    headers=${header}
     ...    expected_status=${expected_status}
 
     [return]  ${result}
@@ -100,14 +110,14 @@ GET Task Quantity
 PUT Task Report
     [Arguments]    ${task_id}    ${auth}    ${expected_status}
 
-    ${hdr}=    Create Dictionary
+    ${header}=    Create Dictionary
     ...    Content-Type=application/json
     ...    Authorization=Bearer ${auth.json()}[access_token]
     
     ${result}=    PUT On Session
     ...    qarpa
     ...    employee/${task_base}/${task_id}
-    ...    headers=${hdr}
+    ...    headers=${header}
     ...    expected_status=${expected_status}
 
     [return]  ${result}
