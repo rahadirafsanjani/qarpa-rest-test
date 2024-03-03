@@ -5,7 +5,6 @@ Resource    ../Resources/objective.robot
 
 *** Variables ***
 
-
 *** Test Cases ***
 Test Case Task 01  
     ${mock_data}        Generate Mock Task (Default)
