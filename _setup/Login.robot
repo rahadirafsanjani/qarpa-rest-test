@@ -15,9 +15,13 @@ Open Session and Login
     ${response}=           POST On Session       qarpa                             ${LOGIN_URL}    data=${payload}    headers=${no_token_header}
     [Return]    ${response}
 
+Open Session
+    Create Session    qarpa    ${BASE_URL}    verify=true
+
 Dump Login
     [Arguments]    ${email}    ${password}
     ${user_login}=    Create Dictionary    email=${email}    password=${password}
     ${user_login}=    Create Dictionary    user=${user_login}
     ${user_login}=    Evaluate             json.dumps(${user_login})
     [return]    ${user_login}
+    
