@@ -1,37 +1,71 @@
 *** Settings ***
 Library     Collections
-Resource    ../../_setup/login.robot
-Resource    ../../_setup/user_01.resource
-Resource    ../Resources/objective.robot
+Resource    ../Resources/Objective.robot
+Resource    ../../_setup/UserSources.resource
+Resource    ../../_setup/Login.robot
+
 
 *** Test Cases ***
 Test Case Task 01  
-    ${data_mock_sum}=         Set Variable                        ${5}
-    ${auth_owner}             Auth                                email=${01_USER_EMAIL}               password=${01_USER_PASSWORD}
-    ${auth_employee}          Auth                                email=${01_USER_IN_BRANCH_EMAIL}     password=${01_USER_IN_BRANCH_PASSWORD}
-    ${mock_data}              Generate Multiple Mock Task         sum=${data_mock_sum}
-    ${data_test_list}         Create Multiple Task                list=${mock_data}                    sum=${data_mock_sum}    auth=${auth_owner}    user_id=${01_USER_IN_BRANCH_ID}
-    ${response}               Task Monitoring                     auth=${auth_employee}                user_permisiion=${1}    expected_status=200
-    Validate Multiple task    data_test_list=${data_test_list}    response=${response}                 sum=${data_mock_sum}
+    ${permission}=                Open Session and Login    email=${E_DUMB}              password=${PW_DUMB}
+    ${payload_list}=              List of Payload           task_check=${5}
+    ${data_test_list}=            Create Multiple Task      payload_list=${payload_list}    task_check=${5}    permission=${permission}    user_id=${643}
+    ${response}=                  GET Task Monitoring       auth=${permission}    user_permission=owner    expected_status=200
+    Validate Multiple task        data_test_list=${data_test_list}    response=${response}    task_check=${5}
 
 *** Keywords ***
-Auth
-    [Arguments]    ${email}    ${password}
-    ${response}    Open Login Session    email=${email}     password=${password}
-    [return]       ${response}
+Payload
+    ${sentence}             Basic Sentence    length=${40}
+    ${future_time}=         Future Time    days=${1}
+    ${past_time}=           Past Time    days=${1}
+    ${counter}        Count Date           start_at=${future_time}    end_at=${past_time}
+    ${data}           Create Dictionary    task=${sentence}    description=${sentence}    start_at=${past_time}    end_at=${future_time}    number_of_days=${counter}
+    [Return]          ${data}
 
-Task Creation for Testing
-    [Arguments]    ${task}    ${description}    ${start_at}    ${end_at}    ${user_id}    ${auth}
-    ${response}    POST Task    task=${task}    description=${description}    start_at=${start_at}     end_at=${end_at}    user_id=${user_id}    expected_status=201    auth=${auth}
-    [return]       ${response}
+List of Payload
+    [Arguments]    ${task_check}  
+    @{list}=       Create List
 
-Task Monitoring
-    [Arguments]    ${auth}    ${user_permisiion}    ${expected_status}
-    ${response}    GET Task Data    auth=${auth}     user_permission=${user_permisiion}    expected_status=${expected_status}
-    [return]       ${response}
+    FOR    ${i}    IN RANGE    ${task_check}
+        ${data}    Payload
+        Append To List    ${list}    ${data}
+    END
+
+    [return]    ${list}
+
+Create Multiple Task
+    [Arguments]    ${payload_list}    ${task_check}    ${permission}    ${user_id}
+    @{data_test_list}=        Create List
+
+    FOR  ${i}  IN RANGE  ${task_check}
+        ${data_test}      POST Task    
+        ...    task=${payload_list}[${i}][task]    
+        ...    description=${payload_list}[${i}][description]    
+        ...    start_at=${payload_list}[${i}][start_at]    
+        ...    end_at=${payload_list}[${i}][end_at]    
+        ...    user_id=${user_id}    
+        ...    expected_status=201    
+        ...    auth=${permission}
+
+        Append To List    ${data_test_list}    ${data_test.json()}[data]
+    END
+
+    [return]    ${data_test_list}
+
+Validate Multiple task
+    [Arguments]    ${data_test_list}    ${response}    ${task_check}
+
+    FOR  ${i}  IN RANGE  ${task_check}
+        ${sliced}          Get Task By Id        
+        ...    target_id=${data_test_list}[${i}][id]     
+        ...    task_list=${response.json()}[data]
+
+        Task Validation    response=${sliced}    data=${data_test_list}[${i}]
+    END 
 
 Task Validation
     [Arguments]    ${response}    ${data}
+    Should Not Be Empty    item=${response}    
     Should Be Equal As Strings    first=${data}[task]                second=${response}[task]
     Should Be Equal As Strings    first=${data}[description]         second=${response}[description]
     Should Be Equal As Strings    first=${data}[start_at]            second=${response}[start_at]
@@ -39,40 +73,3 @@ Task Validation
     Should Be Equal As Strings    first=todo                         second=${response}[status]
     Should Be Equal As Strings    first=${data}[number_of_days]      second=${response}[number_of_days]
 
-Generate Mock Task (Default)
-    ${sentence}       Default Sentence 
-    ${date_future}    Date Future
-    ${date_past}      Date Past
-    ${daydiff}        Count Date           date_str1=${date_future}    date_str2=${date_past}
-    ${data}           Create Dictionary    task=${sentence}    description=${sentence}    start_at=${date_past}    end_at=${date_future}    number_of_days=${daydiff}
-    [Return]          ${data}
-
-Generate Multiple Mock Task
-    [Arguments]    ${sum}  
-    @{list}=       Create List
-
-    FOR    ${i}    IN RANGE    ${sum}
-        ${data}    Generate Mock Task (Default)
-        Append To List    ${list}    ${data}
-    END
-
-    [return]    ${list}
-
-Create Multiple Task
-    [Arguments]    ${list}    ${sum}    ${auth}    ${user_id}
-    @{data_test_list}=        Create List
-
-    FOR  ${i}  IN RANGE  ${sum}
-        ${data_test}      Task Creation for Testing    task=${list}[${i}][task]    description=${list}[${i}][description]    start_at=${list}[${i}][start_at]    end_at=${list}[${i}][end_at]    user_id=${user_id}    auth=${auth}
-        Append To List    ${data_test_list}    ${data_test.json()}[data]
-    END
-
-    [return]    ${data_test_list}
-
-Validate Multiple task
-    [Arguments]    ${data_test_list}    ${response}    ${sum}
-
-    FOR  ${i}  IN RANGE  ${sum}
-        ${sliced}          Get Task By Id        target_id=${data_test_list}[${i}][id]     task_list=${response.json()}[data]
-        Task Validation    response=${sliced}    data=${data_test_list}[${i}]
-    END 

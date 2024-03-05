@@ -50,16 +50,16 @@ POST Task
 
     [return]  ${result}
 
-GET Task Data
+GET Task Monitoring
     [Arguments]    ${auth}    ${user_permission}    ${expected_status}
 
     ${header}=    Create Dictionary
     ...    Content-Type=application/json
     ...    Authorization=Bearer ${auth.json()}[access_token]
     
-    IF  ${user_permission} == ${1}
+    IF  '${user_permission}' == 'owner'
         ${endpoint}=    Set Variable    ${task_base}
-    ELSE IF  ${user_permission} == ${2}  
+    ELSE IF  ${user_permission} == employee  
         ${endpoint}=    Set Variable    employee/${task_base}
     END
     
