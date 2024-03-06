@@ -201,7 +201,6 @@ RTM2_TC17
 RTM2_TC18
     # [Documentation]     Testing Task Creation Using Valid Data but Null Permission
     ${permission}=          Open Session and Login    email=${E_DUMB}              password=${PW_DUMB}
-    ${number}=              String Number             length=${30}
     ${sentence}=            Generate Sentence         sentence_length=${30}        format_set=Base
     ${future_time}=         Generate Time             time_set=future_time         time_period=${2}
     ${past_time}=           Generate Time             time_set=past_time           time_period=${5}
@@ -213,7 +212,6 @@ RTM2_TC18
 RTM2_TC19
     # [Documentation]     Testing Task Creation Using Valid Data but Null Permission
     ${permission}=          Open Session and Login    email=${E_DUMB}              password=${PW_DUMB}
-    ${number}=              String Number             length=${30}
     ${sentence}=            Generate Sentence         sentence_length=${30}        format_set=Base
     ${future_time}=         Generate Time             time_set=future_time         time_period=${2}
     ${past_time}=           Generate Time             time_set=past_time           time_period=${5}
@@ -225,7 +223,6 @@ RTM2_TC19
 RTM2_TC22
     # [Documentation]     Testing Task Creation Using Valid Data but Null Permission
     ${permission}=          Open Session and Login    email=${E_DUMB}              password=${PW_DUMB}
-    ${number}=              String Number             length=${30}
     ${sentence}=            Generate Sentence         sentence_length=${30}        format_set=Base
     ${future_time}=         Generate Time             time_set=future_time         time_period=${2}
     ${response}=            POST Task                 task=${sentence}             description=${sentence}       start_at=2023  
@@ -235,7 +232,6 @@ RTM2_TC22
 RTM2_TC23
     # [Documentation]     Testing Task Creation Using Valid Data but Null Permission
     ${permission}=          Open Session and Login    email=${E_DUMB}              password=${PW_DUMB}
-    ${number}=              String Number             length=${30}
     ${sentence}=            Generate Sentence         sentence_length=${30}        format_set=Base
     ${past_time}=           Generate Time             time_set=past_time           time_period=${5}
     ${response}=            POST Task                 task=${sentence}             description=${sentence}       start_at=${past_time}  
