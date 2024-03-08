@@ -6,20 +6,37 @@ Resource    ../../_setup/Login.robot
 
 
 *** Test Cases ***
-Test Case Task 01  
-    ${permission}=                Open Session and Login    email=${E_DUMB}              password=${PW_DUMB}
+RTM2_TC21
+    [Tags]             EP-T-02    
+    [Documentation]    Owner Loged in and Access Get Task Monitoring (Owner) 
+    ...                then Response Must Be 200 and Only Permissible Task Provided
+    
+    ${permission1}=               Open Session and Login              email=${OWNER_1_EMAIL}              password=${OWNER_1_PASSWORD}
+    ${permission2}=               Open Session and Login              email=${EMPLOYEE_1.1.1_EMAIL}                 password=${EMPLOYEE_1.1.1_PASSWORD}
+    ${payload_list}=              List of Payload                     task_check=${5}
+    ${data_test_list}=            Create Multiple Task                payload_list=${payload_list}    task_check=${5}             permission=${permission1}    user_id=${permission2.json()}[user][id]
+    ${response}=                  GET Task Monitoring                 auth=${permission1}             user_permission=owner      expected_status=200
+    Validate Multiple task        data_test_list=${data_test_list}    response=${response}    task_check=${5}
+
+RTM2_TC22
+    [Tags]             EP-T-02
+    [Documentation]    Employee Loged in and Access Get Task Monitoring (Employee)
+    ...                then Response Must Be 200 and Only Permissible Task Provided
+
+    ${permission1}=               Open Session and Login    email=${OWNER_1_EMAIL}              password=${OWNER_1_PASSWORD}
+    ${permission2}=               Open Session and Login    email=${EMPLOYEE_1.1.1_EMAIL}                 password=${EMPLOYEE_1.1.1_PASSWORD}
     ${payload_list}=              List of Payload           task_check=${5}
-    ${data_test_list}=            Create Multiple Task      payload_list=${payload_list}    task_check=${5}    permission=${permission}    user_id=${643}
-    ${response}=                  GET Task Monitoring       auth=${permission}    user_permission=owner    expected_status=200
+    ${data_test_list}=            Create Multiple Task      payload_list=${payload_list}    task_check=${5}             permission=${permission1}    user_id=${permission2.json()}[user][id]
+    ${response}=                  GET Task Monitoring       auth=${permission2}              user_permission=employee    expected_status=200
     Validate Multiple task        data_test_list=${data_test_list}    response=${response}    task_check=${5}
 
 *** Keywords ***
 Payload
-    ${sentence}             Basic Sentence    length=${40}
-    ${future_time}=         Future Time    days=${1}
-    ${past_time}=           Past Time    days=${1}
-    ${counter}        Count Date           start_at=${future_time}    end_at=${past_time}
-    ${data}           Create Dictionary    task=${sentence}    description=${sentence}    start_at=${past_time}    end_at=${future_time}    number_of_days=${counter}
+    ${sentence}             Basic Sentence       length=${40}
+    ${future_time}=         Future Time          days=${1}
+    ${past_time}=           Past Time            days=${1}
+    ${counter}              Count Date           start_at=${future_time}    end_at=${past_time}
+    ${data}                 Create Dictionary    task=${sentence}           description=${sentence}    start_at=${past_time}    end_at=${future_time}    number_of_days=${counter}
     [Return]          ${data}
 
 List of Payload
