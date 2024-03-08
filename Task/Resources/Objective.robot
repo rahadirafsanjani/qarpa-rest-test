@@ -59,7 +59,7 @@ GET Task Monitoring
     
     IF  '${user_permission}' == 'owner'
         ${endpoint}=    Set Variable    ${task_base}
-    ELSE IF  ${user_permission} == employee  
+    ELSE IF  '${user_permission}' == 'employee'  
         ${endpoint}=    Set Variable    employee/${task_base}
     END
     
