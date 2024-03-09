@@ -258,6 +258,48 @@ RTM2_TC21
     ...                                               end_at=2025        user_id=${643}    expected_status=422     auth=${permission}
     Negative Validation In Scope    response=${response}    key1=message    key2=end_at    key3=0    message=End at cannot be blank
 
+RTM2_TC22
+    [Tags]                  EP-T-02
+    [Documentation]         Owner Loged in and Access Post Task Creation using ASCII then Response Must Be 201 and Return Data Test
+
+    ${permission}=          Open Session and Login    email=${E_DUMB}              password=${PW_DUMB}
+    ${sentence1}            Format Set Sentence       length=${25}    charset=ASCII
+    ${sentence2}=           Generate Sentence         sentence_length=${30}        format_set=Base
+    ${future_time}=         Generate Time             time_set=future_time         time_period=${2}
+    ${past_time}=           Generate Time             time_set=past_time           time_period=${5}
+    ${payload}=             Data Validator            sentence_1=${sentence1}       sentence_2=${sentence2}                    start_at=${past_time}    end_at=${future_time}
+    ${response}=            POST Task                 task=${payload}[task]        description=${payload}[description]       start_at=${payload}[start_at]    
+    ...                                               end_at=${payload}[end_at]    user_id=${643}    expected_status=201     auth=${permission}
+    Positive Validation     ${payload}    ${response}
+
+RTM2_TC23
+    [Tags]                  EP-T-02
+    [Documentation]         Owner Loged in and Access Post Task Creation using Unicode then Response Must Be 201 and Return Data Test
+
+    ${permission}=          Open Session and Login    email=${E_DUMB}              password=${PW_DUMB}
+    ${sentence1}            Format Set Sentence       length=${25}    charset=Unicode
+    ${sentence2}=           Generate Sentence         sentence_length=${30}        format_set=Base
+    ${future_time}=         Generate Time             time_set=future_time         time_period=${2}
+    ${past_time}=           Generate Time             time_set=past_time           time_period=${5}
+    ${payload}=             Data Validator            sentence_1=${sentence1}       sentence_2=${sentence2}                    start_at=${past_time}    end_at=${future_time}
+    ${response}=            POST Task                 task=${payload}[task]        description=${payload}[description]       start_at=${payload}[start_at]    
+    ...                                               end_at=${payload}[end_at]    user_id=${643}    expected_status=201     auth=${permission}
+    Positive Validation     ${payload}    ${response}
+
+RTM2_TC24
+    [Tags]                  EP-T-02
+    [Documentation]         Owner Loged in and Access Post Task Creation using ISO8859 then Response Must Be 201 and Return Data Test
+
+    ${permission}=          Open Session and Login    email=${E_DUMB}              password=${PW_DUMB}
+    ${sentence1}            Format Set Sentence       length=${25}    charset=ISO8859
+    ${sentence2}=           Generate Sentence         sentence_length=${30}        format_set=Base
+    ${future_time}=         Generate Time             time_set=future_time         time_period=${2}
+    ${past_time}=           Generate Time             time_set=past_time           time_period=${5}
+    ${payload}=             Data Validator            sentence_1=${sentence1}       sentence_2=${sentence2}                    start_at=${past_time}    end_at=${future_time}
+    ${response}=            POST Task                 task=${payload}[task]        description=${payload}[description]       start_at=${payload}[start_at]    
+    ...                                               end_at=${payload}[end_at]    user_id=${643}    expected_status=201     auth=${permission}
+    Positive Validation     ${payload}    ${response}
+
 # Fails
 RTM2_TC3
     [Tags]                  BVA-F-04
