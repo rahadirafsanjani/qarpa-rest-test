@@ -4,10 +4,10 @@ Resource    ../../_setup/UserSources.resource
 Resource    ../../_setup/Login.robot
 
 *** Test Cases ***
-RTM2_TC1
+01_TC01
     [Tags]                  BVA-T-02
     [Documentation]         Owner Loged in and Access Post Task Creation using Valid Task (90 Char) 
-    ...                    (Other Field Valid) and Valid Format then Response Must Be 201 and Return Data Test 
+    ...                     (Other Field Valid) and Valid Format then Response Must Be 201 and Return Data Test 
     ${permission}=          Open Session and Login    email=${E_DUMB}              password=${PW_DUMB}
     ${sentence}=            Generate Sentence         sentence_length=${90}        format_set=Base
     ${future_time}=         Generate Time             time_set=future_time         time_period=${2}
@@ -17,7 +17,7 @@ RTM2_TC1
     ...                                               end_at=${payload}[end_at]    user_id=${643}    expected_status=201     auth=${permission}
     Positive Validation     ${payload}    ${response}
     
-RTM2_TC2
+01_TC02
     [Tags]                  BVA-F-05
     [Documentation]         Owner Loged in and Access Post Task Creation using Blank Task (Invalid) 
     ...                     and Valid Format (Blank String) then Response Must Be 422 and Return Error Message 
@@ -31,7 +31,21 @@ RTM2_TC2
     Negative Validation In Scope                      response=${response}         key1=message      key2=task    key3=0     message=is too short (minimum is 1 character)
     Negative Validation In Scope                      response=${response}         key1=message      key2=task    key3=1     message=can't be blank
 
-RTM2_TC4
+01_TC03
+    [Tags]                  BVA-F-04
+    [Documentation]         Owner Loged in and Access Post Task Creation using Invalid Task (255 Char)(Other Field Valid) 
+    ...                     and Valid Format then Response Must Be 422 and Return Error Message
+
+    ${permission}=          Open Session and Login    email=${E_DUMB}              password=${PW_DUMB}
+    ${sentence}=            Generate Sentence         sentence_length=${255}        format_set=Base
+    ${future_time}=         Generate Time             time_set=future_time         time_period=${2}
+    ${past_time}=           Generate Time             time_set=past_time           time_period=${5}
+    ${payload}=             Data Validator            sentence_1=${sentence}       sentence_2=${sentence}         start_at=${past_time}    end_at=${future_time}
+    ${response}=            POST Task                 task=${payload}[task]        description=${payload}[description]    start_at=${payload}[start_at]    
+    ...                                               end_at=${payload}[end_at]    user_id=${643}    expected_status=422     auth=${permission}
+    Negative Validation In Scope                      response=${response}         key1=message      key2=task    key3=0     message=is too long (maximum is 255 characters)
+
+01_TC04
     [Tags]                  BVA-T-01
     [Documentation]         Owner Loged in and Access Post Task Creation using Valid Task (254 Char)
     ...                     (Other Field Valid) and Valid Format then Response Must Be 201 and Return Data Test
@@ -44,7 +58,7 @@ RTM2_TC4
     ...                                               end_at=${payload}[end_at]    user_id=${643}    expected_status=201     auth=${permission}
     Positive Validation     ${payload}    ${response}
 
-RTM2_TC5
+01_TC05
     [Tags]                  BVA-T-03
     [Documentation]         Owner Loged in and Access Post Task Creation using Valid Task (1 Char)(Other Field Valid) 
     ...                     and Valid Format then Response Must Be 201 and Return Data Test
@@ -57,7 +71,7 @@ RTM2_TC5
     ...                                               end_at=${payload}[end_at]    user_id=${643}    expected_status=201     auth=${permission}
     Positive Validation     ${payload}    ${response}
 
-RTM2_TC6
+01_TC06
     [Tags]                  EP-F-06
     [Documentation]         With No Permission and Access Post Task Creation using Valid Data and Valid Format 
     ...                     then Response Must Be 401 and Return Error Message
@@ -70,7 +84,7 @@ RTM2_TC6
     ...                                               end_at=${payload}[end_at]    user_id=${239}    expected_status=401     auth=${null}
     Negative Validation In Scope    response=${response}     key1=message     key2=${null}    key3=${null}     message=You have to log in.
 
-RTM2_TC7
+01_TC07
     [Tags]                  EP-F-05
     [Documentation]         Owner Loged in and Access Post Task Creation using Invalid User and Valid Format 
     ...                     then Response Must Be 422 and Return Error Message
@@ -84,7 +98,7 @@ RTM2_TC7
     Negative Validation In Scope    response=${response}     key1=message     key2=user_id    key3=${0}     message=User id not valid
     Negative Validation In Scope    response=${response}     key1=message     key2=user    key3=${0}     message=must exist
 
-RTM2_TC8
+01_TC08
     [Tags]                  BVA-T-02
     [Documentation]         Owner Loged in and Access Post Task Creation using Valid Desc (90 Char)(Other Field Valid) 
     ...                     and Valid Format then Response Must Be 201 and Return Data Test
@@ -97,7 +111,7 @@ RTM2_TC8
     ...                                               end_at=${payload}[end_at]    user_id=${643}    expected_status=201     auth=${permission}
     Positive Validation     ${payload}    ${response}
 
-RTM2_TC9
+01_TC09
     [Tags]                  BVA-F-05
     [Documentation]         Owner Loged in and Access Post Task Creation using Blank Desc (Invalid) 
     ...                     and Valid Format (Blank String) then Response Must Be 422 and Return Error Message
@@ -112,7 +126,7 @@ RTM2_TC9
     Negative Validation In Scope                      response=${response}         key1=message      key2=description    key3=0     message=is too short (minimum is 1 character)
     Negative Validation In Scope                      response=${response}         key1=message      key2=description    key3=1     message=can't be blank
 
-RTM2_TC11
+01_TC10
     [Tags]                  BVA-T-01
     [Documentation]         Owner Loged in and Access Post Task Creation using Valid Desc (254 Char)(Other Field Valid) 
     ...                     and Valid Format then Response Must Be 201 and Return Data Test
@@ -126,7 +140,7 @@ RTM2_TC11
     ...                                               end_at=${payload}[end_at]    user_id=${643}    expected_status=201     auth=${permission}
     Positive Validation     ${payload}    ${response}
 
-RTM2_TC12
+01_TC11
     [Tags]                  BVA-T-03
     [Documentation]         Owner Loged in and Access Post Task Creation using Valid Desc (1 Char)(Other Field Valid) 
     ...                     and Valid Format then Response Must Be 201 and Return Data Test
@@ -140,7 +154,7 @@ RTM2_TC12
     ...                                               end_at=${payload}[end_at]    user_id=${643}    expected_status=201     auth=${permission}
     Positive Validation     ${payload}    ${response}
 
-RTM2_TC13
+01_TC12
     [Tags]                  BVA-T-02
     [Documentation]         Owner Loged in and Access Post Task Creation using Valid Date (start_at < end_at) (Other Field Valid) 
     ...                     and Valid Format then Response Must Be 201 and Return Data Test
@@ -154,7 +168,7 @@ RTM2_TC13
     ...                                               end_at=${payload}[end_at]    user_id=${643}    expected_status=201     auth=${permission}
     Positive Validation     ${payload}    ${response}
 
-RTM2_TC14
+01_TC13
     [Tags]                  BVA-T-02
     [Documentation]         Owner Loged in and Access Post Task Creation using Valid Date (start_at < end_at) (Other Field Valid) 
     ...                     and Valid Format then Response Must Be 201 and Return Data Test
@@ -168,7 +182,7 @@ RTM2_TC14
     ...                                               end_at=${payload}[end_at]    user_id=${643}    expected_status=201     auth=${permission}
     Positive Validation     ${payload}    ${response}
 
-RTM2_TC15
+01_TC14
     [Tags]                  BVA-F-05
     [Documentation]         Owner Loged in and Access Post Task Creation using Invalid Date (Start_at > End_at) (Other Vield Valid) 
     ...                     and Valid Format then Response Must Be 422 and Return Error Message
@@ -182,7 +196,7 @@ RTM2_TC15
     ...                                               end_at=${payload}[end_at]    user_id=${643}    expected_status=422     auth=${permission}
     Negative Validation In Scope                      response=${response}         key1=message      key2=start_at    key3=0     message=Start at cannot bigger than end at
 
-RTM2_TC16
+01_TC15
     [Tags]                  BVA-F-05
     [Documentation]         Owner Loged in and Access Post Task Creation using Blank end_at (Invalid) 
     ...                     and Valid Format (Blank String) then Response Must Be 422 and Return Error Message
@@ -194,7 +208,7 @@ RTM2_TC16
     ...                                               end_at=${null}    user_id=${643}    expected_status=422     auth=${permission}
     Negative Validation In Scope                      response=${response}         key1=message      key2=end_at    key3=0     message=End at cannot be blank
 
-RTM2_TC17
+01_TC16
     [Tags]                  BVA-F-05
     [Documentation]         Owner Loged in and Access Post Task Creation using Blank start_at (Invalid) 
     ...                     and Valid Format (Blank String) then Response Must Be 422 and Return Error Message
@@ -206,7 +220,7 @@ RTM2_TC17
     ...                                               end_at=${future_time}        user_id=${643}    expected_status=422     auth=${permission}
     Negative Validation In Scope                      response=${response}         key1=message      key2=start_at    key3=0     message=Start at cannot be blank
 
-RTM2_TC18
+01_TC17
     [Tags]                  BVA-T-02
     [Documentation]         Owner Loged in and Access Post Task Creation using Valid Task (Other Field Valid) 
     ...                     and Invalid Format (Integer) then Response Must Be 201 and Return Data Test
@@ -220,7 +234,7 @@ RTM2_TC18
     ...                                               end_at=${payload}[end_at]    user_id=${643}    expected_status=201     auth=${permission}
     Positive Validation     ${payload}    ${response}
 
-RTM2_TC19
+01_TC18
     [Tags]                  BVA-T-02
     [Documentation]         Owner Loged in and Access Post Task Creation using Valid Date (Other Field Valid) 
     ...                     and Valid Format then Response Must Be 201 and Return Data Test
@@ -234,7 +248,7 @@ RTM2_TC19
     ...                                               end_at=${payload}[end_at]    user_id=${643}    expected_status=201     auth=${permission}
     Positive Validation     ${payload}    ${response}
 
-RTM2_TC20
+01_TC19
     [Tags]                  BVA-T-03
     [Documentation]         Owner Loged in and Access Post Task Creation using Invalid Start_at 
     ...                     and Valid Format (Incomplete Date Format)  then Response Must Be 422 and Return Error Message
@@ -246,7 +260,7 @@ RTM2_TC20
     ...                                               end_at=${future_time}        user_id=${643}    expected_status=422     auth=${permission}
     Negative Validation In Scope    response=${response}    key1=message    key2=start_at    key3=0    message=Start at cannot be blank
 
-RTM2_TC21
+01_TC20
     [Tags]                  BVA-T-03
     [Documentation]         Owner Loged in and Access Post Task Creation using Invalid End_at and Valid Format (Incomplete Date Format) 
     ...                     then Response Must Be 422 and Return Error Message
@@ -258,7 +272,7 @@ RTM2_TC21
     ...                                               end_at=2025        user_id=${643}    expected_status=422     auth=${permission}
     Negative Validation In Scope    response=${response}    key1=message    key2=end_at    key3=0    message=End at cannot be blank
 
-RTM2_TC22
+01_TC21
     [Tags]                  EP-T-02
     [Documentation]         Owner Loged in and Access Post Task Creation using ASCII then Response Must Be 201 and Return Data Test
 
@@ -272,7 +286,7 @@ RTM2_TC22
     ...                                               end_at=${payload}[end_at]    user_id=${643}    expected_status=201     auth=${permission}
     Positive Validation     ${payload}    ${response}
 
-RTM2_TC23
+01_TC22
     [Tags]                  EP-T-02
     [Documentation]         Owner Loged in and Access Post Task Creation using Unicode then Response Must Be 201 and Return Data Test
 
@@ -286,7 +300,7 @@ RTM2_TC23
     ...                                               end_at=${payload}[end_at]    user_id=${643}    expected_status=201     auth=${permission}
     Positive Validation     ${payload}    ${response}
 
-RTM2_TC24
+01_TC23
     [Tags]                  EP-T-02
     [Documentation]         Owner Loged in and Access Post Task Creation using ISO8859 then Response Must Be 201 and Return Data Test
 
@@ -300,23 +314,49 @@ RTM2_TC24
     ...                                               end_at=${payload}[end_at]    user_id=${643}    expected_status=201     auth=${permission}
     Positive Validation     ${payload}    ${response}
 
-# Fails
-RTM2_TC3
-    [Tags]                  BVA-F-04
-    [Documentation]         Owner Loged in and Access Post Task Creation using Invalid Task (255 Char)(Other Field Valid) 
-    ...                     and Valid Format then Response Must Be 422 and Return Error Message
+01_TC24
+    [Tags]                  EP-T-02
+    [Documentation]         Owner Loged in and Access Post Task Creation using ASCII then Response Must Be 201 and Return Data Test
 
     ${permission}=          Open Session and Login    email=${E_DUMB}              password=${PW_DUMB}
-    ${sentence}=            Generate Sentence         sentence_length=${255}        format_set=Base
+    ${ASCII}=               Format Set Sentence       length=${25}    charset=ASCII
+    ${sentence}=            Generate Sentence         sentence_length=${30}        format_set=Base
     ${future_time}=         Generate Time             time_set=future_time         time_period=${2}
     ${past_time}=           Generate Time             time_set=past_time           time_period=${5}
-    ${payload}=             Data Validator            sentence_1=${sentence}       sentence_2=${sentence}         start_at=${past_time}    end_at=${future_time}
-    ${response}=            POST Task                 task=${payload}[task]        description=${payload}[description]    start_at=${payload}[start_at]    
-    ...                                               end_at=${payload}[end_at]    user_id=${643}    expected_status=422     auth=${permission}
-    Negative Validation In Scope                      response=${response}         key1=message      key2=task    key3=0     message=is too long (maximum is 255 characters)
+    ${payload}=             Data Validator            sentence_1=${sentence}       sentence_2=${ASCII}                    start_at=${past_time}    end_at=${future_time}
+    ${response}=            POST Task                 task=${payload}[task]        description=${payload}[description]       start_at=${payload}[start_at]    
+    ...                                               end_at=${payload}[end_at]    user_id=${643}    expected_status=201     auth=${permission}
+    Positive Validation     ${payload}    ${response}
 
+01_TC25
+    [Tags]                  EP-T-02
+    [Documentation]         Owner Loged in and Access Post Task Creation using Unicode then Response Must Be 201 and Return Data Test
 
-RTM2_TC10
+    ${permission}=          Open Session and Login    email=${E_DUMB}              password=${PW_DUMB}
+    ${Unicode}=             Format Set Sentence       length=${25}    charset=Unicode
+    ${sentence}=           Generate Sentence         sentence_length=${30}        format_set=Base
+    ${future_time}=         Generate Time             time_set=future_time         time_period=${2}
+    ${past_time}=           Generate Time             time_set=past_time           time_period=${5}
+    ${payload}=             Data Validator            sentence_1=${sentence}       sentence_2=${Unicode}                    start_at=${past_time}    end_at=${future_time}
+    ${response}=            POST Task                 task=${payload}[task]        description=${payload}[description]       start_at=${payload}[start_at]    
+    ...                                               end_at=${payload}[end_at]    user_id=${643}    expected_status=201     auth=${permission}
+    Positive Validation     ${payload}    ${response}
+
+01_TC26
+    [Tags]                  EP-T-02
+    [Documentation]         Owner Loged in and Access Post Task Creation using ISO8859 then Response Must Be 201 and Return Data Test
+
+    ${permission}=          Open Session and Login    email=${E_DUMB}              password=${PW_DUMB}
+    ${ISO8859}              Format Set Sentence       length=${25}    charset=ISO8859
+    ${sentence}=           Generate Sentence         sentence_length=${30}        format_set=Base
+    ${future_time}=         Generate Time             time_set=future_time         time_period=${2}
+    ${past_time}=           Generate Time             time_set=past_time           time_period=${5}
+    ${payload}=             Data Validator            sentence_1=${sentence}       sentence_2=${ISO8859}                    start_at=${past_time}    end_at=${future_time}
+    ${response}=            POST Task                 task=${payload}[task]        description=${payload}[description]       start_at=${payload}[start_at]    
+    ...                                               end_at=${payload}[end_at]    user_id=${643}    expected_status=201     auth=${permission}
+    Positive Validation     ${payload}    ${response}
+
+01_TC27
     [Tags]                  BVA-F-04
     [Documentation]         Owner Loged in and Access Post Task Creation using Invalid Desc (255 Char)
     ...                    (Other Field Valid) and Valid Format then Response Must Be 422 and Return Error Message
@@ -329,24 +369,6 @@ RTM2_TC10
     ${response}=            POST Task                 task=${payload}[task]        description=${payload}[description]    start_at=${payload}[start_at]    
     ...                                               end_at=${payload}[end_at]    user_id=${643}    expected_status=422     auth=${permission}
     Negative Validation In Scope                      response=${response}         key1=message      key2=description    key3=0     message=is too long (maximum is 255 characters)
-
-RTM_TC46
-    [Tags]                  BVA-F-04
-    [Documentation]         Owner Loged in and Access Post Task Creation using Invalid Desc (255 Char)
-    ...                    (Other Field Valid) and Valid Format then Response Must Be 422 and Return Error Message
-    ${future_time}=         Generate Time             time_set=future_time         time_period=${2}
-    
-RTM_TC47
-    [Tags]                  BVA-F-04
-    [Documentation]         Owner Loged in and Access Post Task Creation using Invalid Desc (255 Char)
-    ...                    (Other Field Valid) and Valid Format then Response Must Be 422 and Return Error Message
-    ${future_time}=         Generate Time             time_set=future_time         time_period=${2}
-
-RTM_TC48
-    [Tags]                  BVA-F-04
-    [Documentation]         Owner Loged in and Access Post Task Creation using Invalid Desc (255 Char)
-    ...                    (Other Field Valid) and Valid Format then Response Must Be 422 and Return Error Message
-    ${future_time}=         Generate Time             time_set=future_time         time_period=${2}
 
 *** Keywords ***
 Generate Sentence
