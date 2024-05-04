@@ -5,7 +5,7 @@ Resource    ../../_setup/UserSources.resource
 Resource    ../../_setup/Login.robot
 
 *** Test Cases ***
-RTM2_TC23
+04_TC01
     [Tags]               EP-T-02
     [Documentation]      Employee Loged in and Access Get Task Overview using Permissible Task ID 
     ...                  then Response Must Be 200 and Only Current Task ID Provided
@@ -26,7 +26,7 @@ RTM2_TC23
     
     Positive Validation     payload=${payload}         response=${response}
 
-RTM2_TC24
+04_TC02
     [Tags]               EP-F-05
     [Documentation]      Employee Loged in and Access Get Task Overview using Unpermissable ID then Response Must Be 403
     ${permission1}=      Open Session and Login    email=${OWNER_1_EMAIL}              password=${OWNER_1_PASSWORD}
