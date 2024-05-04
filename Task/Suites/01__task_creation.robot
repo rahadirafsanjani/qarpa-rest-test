@@ -330,6 +330,24 @@ RTM2_TC10
     ...                                               end_at=${payload}[end_at]    user_id=${643}    expected_status=422     auth=${permission}
     Negative Validation In Scope                      response=${response}         key1=message      key2=description    key3=0     message=is too long (maximum is 255 characters)
 
+RTM_TC46
+    [Tags]                  BVA-F-04
+    [Documentation]         Owner Loged in and Access Post Task Creation using Invalid Desc (255 Char)
+    ...                    (Other Field Valid) and Valid Format then Response Must Be 422 and Return Error Message
+    ${future_time}=         Generate Time             time_set=future_time         time_period=${2}
+    
+RTM_TC47
+    [Tags]                  BVA-F-04
+    [Documentation]         Owner Loged in and Access Post Task Creation using Invalid Desc (255 Char)
+    ...                    (Other Field Valid) and Valid Format then Response Must Be 422 and Return Error Message
+    ${future_time}=         Generate Time             time_set=future_time         time_period=${2}
+
+RTM_TC48
+    [Tags]                  BVA-F-04
+    [Documentation]         Owner Loged in and Access Post Task Creation using Invalid Desc (255 Char)
+    ...                    (Other Field Valid) and Valid Format then Response Must Be 422 and Return Error Message
+    ${future_time}=         Generate Time             time_set=future_time         time_period=${2}
+
 *** Keywords ***
 Generate Sentence
     [Arguments]    ${sentence_length}    ${format_set}
