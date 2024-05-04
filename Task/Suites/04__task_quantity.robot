@@ -5,7 +5,7 @@ Resource    ../../_setup/UserSources.resource
 Resource    ../../_setup/Login.robot
 
 *** Test Cases ***
-RTM2_TC25 
+05_TC01 
     [Tags]              EP-T-02
     [Documentation]     Employee Loged in and Access Get Task Amount then Response 
     ...                 Must Be 200 and Return Correct Task Calculation
