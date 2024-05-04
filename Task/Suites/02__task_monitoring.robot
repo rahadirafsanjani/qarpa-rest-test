@@ -6,7 +6,7 @@ Resource    ../../_setup/Login.robot
 
 
 *** Test Cases ***
-RTM2_TC21
+02_TC01
     [Tags]             EP-T-02    
     [Documentation]    Owner Loged in and Access Get Task Monitoring (Owner) 
     ...                then Response Must Be 200 and Only Permissible Task Provided
@@ -18,7 +18,7 @@ RTM2_TC21
     ${response}=                  GET Task Monitoring                 auth=${permission1}             user_permission=owner      expected_status=200
     Validate Multiple task        data_test_list=${data_test_list}    response=${response}    task_check=${5}
 
-RTM2_TC22
+03_TC01
     [Tags]             EP-T-02
     [Documentation]    Employee Loged in and Access Get Task Monitoring (Employee)
     ...                then Response Must Be 200 and Only Permissible Task Provided
@@ -26,7 +26,7 @@ RTM2_TC22
     ${permission1}=               Open Session and Login    email=${OWNER_1_EMAIL}              password=${OWNER_1_PASSWORD}
     ${permission2}=               Open Session and Login    email=${EMPLOYEE_1.1.1_EMAIL}                 password=${EMPLOYEE_1.1.1_PASSWORD}
     ${payload_list}=              List of Payload           task_check=${5}
-    ${data_test_list}=            Create Multiple Task      payload_list=${payload_list}    task_check=${5}             permission=${permission1}    user_id=${permission2.json()}[user][id]
+    ${data_test_list}=            Create Multiple Task      payload_list=${payload_list}     task_check=${5}             permission=${permission1}    user_id=${permission2.json()}[user][id]
     ${response}=                  GET Task Monitoring       auth=${permission2}              user_permission=employee    expected_status=200
     Validate Multiple task        data_test_list=${data_test_list}    response=${response}    task_check=${5}
 
