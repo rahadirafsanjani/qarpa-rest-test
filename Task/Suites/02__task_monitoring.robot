@@ -6,8 +6,8 @@ Resource    ../../_setup/Login.robot
 
 
 *** Test Cases ***
-02_TC01
-    [Tags]             EP-T-02    
+TC02_01
+    [Tags]             EP_T_02    
     [Documentation]    Owner Loged in and Access Get Task Monitoring (Owner) 
     ...                then Response Must Be 200 and Only Permissible Task Provided
     
@@ -18,8 +18,8 @@ Resource    ../../_setup/Login.robot
     ${response}=                  GET Task Monitoring                 auth=${permission1}             user_permission=owner      expected_status=200
     Validate Multiple task        data_test_list=${data_test_list}    response=${response}    task_check=${5}
 
-03_TC01
-    [Tags]             EP-T-02
+TC03_01
+    [Tags]             EP_T_02
     [Documentation]    Employee Loged in and Access Get Task Monitoring (Employee)
     ...                then Response Must Be 200 and Only Permissible Task Provided
 
