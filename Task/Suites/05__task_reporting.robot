@@ -8,7 +8,7 @@ Resource    ../../_setup/Login.robot
 
 *** Test Cases ***
 TC06_01
-    [Tags]              EP-T-04
+    [Tags]              EP_T_04
     [Documentation]     Employee Loged in and Access Put Task Report using Permissible 
     ...                 Task ID then Response Must Be 200 and Task should updated to "Done"
     
@@ -29,7 +29,7 @@ TC06_01
     Task Validation     response=${response.json()}[data]    payload=${payload}
 
 TC06_02
-    [Tags]              EP-F-05
+    [Tags]              EP_F_05
     [Documentation]     Employee Loged in and Access Put Task Report using Unpermissible Task ID 
     ...                 then Response Must Be 403 and Task should not Update
 
