@@ -1,12 +1,26 @@
-prerequisites that need to be fulfilled before installing this project:
-  -python 3.6.9
-  -pip 24.0
+# Let's create the README.md file with the provided content
 
-Before use please install this install-requirements.txt by:
-  -pip install -r install-requirements.txt
+content = """
+# Project Installation and Usage Guide
 
-How to run this Automation ?
-  -robot --outputdir ./Output --name "qarpa-test-demo" Task/Suites
+## Prerequisites
 
-How to see result ?
-  -access this file ./qarpa-rest-test/_output/report.html
+Before installing and using this project, ensure that the following prerequisites are met:
+
+- **Python 3.6.9**
+- **pip 24.0**
+
+## Installation
+
+To install the necessary dependencies for this project, use the following command:
+
+```bash
+pip install -r install-requirements.txt
+
+Running the Automation
+To execute the automation suite, use the following command:
+robot --outputdir ./Output --name "qarpa-test-demo" Task/Suites
+
+Viewing the Results
+After running the automation, you can view the results by accessing the following file:
+./qarpa-rest-test/_output/report.html
