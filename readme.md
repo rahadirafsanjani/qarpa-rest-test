@@ -14,12 +14,12 @@ To install the necessary dependencies for this project, use the following comman
 ```
 pip install -r install-requirements.txt
 ```
-Running the Automation
+## Running the Automation
 To execute the automation suite, use the following command:
 ```
 robot --outputdir ./Output --name "qarpa-test-demo" Task/Suites
 ```
-Viewing the Results
+## Viewing the Results
 After running the automation, you can view the results by accessing the following file:
 ```
 ./qarpa-rest-test/_output/report.html
